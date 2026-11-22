@@ -19,3 +19,7 @@ Linux and Bash required. Reports only the root filesystem. A container sees its 
 
 See [LEARNING.md](LEARNING.md) for the design decisions, verification evidence,
 and next steps. Never commit credentials, private hostnames, or real incident data.
+
+## Uptime snapshot
+
+Run `bash uptime-report.sh` to format Linux boot uptime as days and time. In a container this usually reflects the host kernel uptime, not container age.
