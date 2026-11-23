@@ -27,7 +27,7 @@ journalctl -u infra-resource-check.service
 
 A nonzero oneshot status records an alert in the journal; this is not a paging
 integration. Uninstall by disabling the timer and removing those three files.
-The timer has not been installed on the host as part of this repository's checks.
+The systemd units provide an optional VM installation exercise.
 
 ## Operations
 

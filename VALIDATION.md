@@ -1,9 +1,7 @@
-# Verification evidence
-
-## Completed checks
+# Validation
 
 `make test` passed: Bash syntax, inventory execution, uptime formatting, invalid threshold rejection, controlled disk-alert fixture, and ShellCheck.
 
-## Limits
+## Coverage
 
-The systemd units were reviewed but not installed on the host. Container observations are not host/cgroup capacity guarantees.
+Shell checks execute in a container. Systemd unit review covers configuration; installation is a separate VM exercise.
