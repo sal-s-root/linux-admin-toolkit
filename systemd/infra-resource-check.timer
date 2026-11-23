@@ -1,0 +1,11 @@
+[Unit]
+Description=Run resource checks with scheduling jitter
+
+[Timer]
+OnBootSec=5min
+OnUnitActiveSec=15min
+RandomizedDelaySec=2min
+Persistent=true
+
+[Install]
+WantedBy=timers.target

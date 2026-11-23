@@ -1,25 +1,37 @@
 # Linux administration toolkit
 
-## Purpose
-
-Practice shell quoting, process exit codes, and Linux resource inspection.
-
-## Run locally
+Read-only shell tools for host inventory, disk alerts, memory snapshots, and uptime.
+The scheduled check is packaged as a hardened systemd oneshot and timer.
 
 ```sh
 bash inventory.sh
-bash disk-check.sh 85
+bash checks/resource-report.sh
+make test
 ```
 
-## Scope and limitations
+Exit 0 means no disk threshold alert, 1 means the threshold was exceeded, and 2
+means invalid configuration. `DISK_THRESHOLD=90` changes the disk threshold.
+Memory is reported as an observation and does not trigger the disk alert.
 
-Linux and Bash required. Reports only the root filesystem. A container sees its own filesystem and kernel view.
+## Optional systemd installation
 
-## Engineering notes
+Review the files first, then on a Linux lab VM with systemd:
 
-See [LEARNING.md](LEARNING.md) for the design decisions, verification evidence,
-and next steps. Never commit credentials, private hostnames, or real incident data.
+```sh
+sudo install -Dm755 checks/resource-report.sh /usr/local/lib/infra-toolkit/resource-report.sh
+sudo install -m644 systemd/infra-resource-check.{service,timer} /etc/systemd/system/
+sudo systemctl daemon-reload
+sudo systemctl enable --now infra-resource-check.timer
+journalctl -u infra-resource-check.service
+```
 
-## Uptime snapshot
+A nonzero oneshot status records an alert in the journal; this is not a paging
+integration. Uninstall by disabling the timer and removing those three files.
+The timer has not been installed on the host as part of this repository's checks.
 
-Run `bash uptime-report.sh` to format Linux boot uptime as days and time. In a container this usually reflects the host kernel uptime, not container age.
+## Operations
+
+See [disk investigation](RUNBOOK.md). Container memory and mount views can differ
+from host resource limits. Uptime usually reflects the shared kernel. No script
+removes files or restarts services. Tests use a controlled `df` fixture to exercise
+an alert without consuming real disk space.
