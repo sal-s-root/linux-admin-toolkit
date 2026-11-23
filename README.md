@@ -35,3 +35,7 @@ See [disk investigation](RUNBOOK.md). Container memory and mount views can diffe
 from host resource limits. Uptime usually reflects the shared kernel. No script
 removes files or restarts services. Tests use a controlled `df` fixture to exercise
 an alert without consuming real disk space.
+
+## Project history
+
+See [history and scope](HISTORY.md) for the correction of earlier synthetic dates.
